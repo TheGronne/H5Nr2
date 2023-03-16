@@ -43,11 +43,11 @@ public class GameHandlerScript : MonoBehaviour
 
     public void SpawnUnit(ushort playerId, int unitId)
     {
-        Debug.Log(playerId);
         var player = ControllerScript.Singleton.GetPlayerObject(playerId);
         var unit = ControllerScript.Singleton.GetUnit(unitId);
 
         unit.GetComponent<UnitMain>().summoner = player;
+        unit.GetComponent<UnitMain>().summonerId = playerId;
         unit.transform.position = player.transform.Find("SummonPosition").position;
         unit = Instantiate(unit);
         ControllerScript.Singleton.PostPlayerUnit(playerId, unit);
@@ -56,15 +56,15 @@ public class GameHandlerScript : MonoBehaviour
 
     public void RemoveUnit(GameObject removedUnit)
     {
-        foreach (var item in ControllerScript.Singleton.GetPlayerObjectList())
+        foreach (var player in ControllerScript.Singleton.GetPlayerClassList())
         {
-            if (removedUnit.GetComponent<UnitMain>().summonerId != item.Key)
+            if (removedUnit.GetComponent<UnitMain>().summonerId != player.Value.Id)
             {
-                ControllerScript.Singleton.GetPlayerSummonerMain(item.Key).experience += removedUnit.GetComponent<UnitMain>().experienceGiven;
-                ControllerScript.Singleton.GetPlayerSummonerMain(item.Key).gold += removedUnit.GetComponent<UnitMain>().goldGiven;
+                ControllerScript.Singleton.GetPlayerSummonerMain(player.Key).experience += removedUnit.GetComponent<UnitMain>().experienceGiven;
+                ControllerScript.Singleton.GetPlayerSummonerMain(player.Key).gold += removedUnit.GetComponent<UnitMain>().goldGiven;
             } else
             {
-                ControllerScript.Singleton.DeletePlayerUnit(item.Key, removedUnit);
+                ControllerScript.Singleton.DeletePlayerUnit(player.Key, 0);
             }
         }
 
@@ -74,28 +74,22 @@ public class GameHandlerScript : MonoBehaviour
 
     public void UpdateUnitTargets()
     {
-        foreach (var item in ControllerScript.Singleton.GetPlayerObjectList())
+        foreach (var player in ControllerScript.Singleton.GetPlayerClassList())
         {
             ushort enemyPlayerId = new ushort();
-            foreach (var item1 in ControllerScript.Singleton.GetPlayerObjectList())
-            {
-                if (item.Key != item1.Key)
-                    enemyPlayerId = item1.Key;
-            }
+            foreach (var player2 in ControllerScript.Singleton.GetPlayerClassList())
+                if (player.Value.Id != player2.Value.Id)
+                    enemyPlayerId = player2.Value.Id;
 
-            for (int i = 0; i < ControllerScript.Singleton.GetPlayerUnitList(item.Key).Count; i++)
+            for (int i = 0; i < ControllerScript.Singleton.GetPlayerUnitList(player.Value.Id).Count; i++)
             {
-                if (ControllerScript.Singleton.GetPlayerUnitList(item.Key).Count > 1 && i != 0) //First unit has no ally in front
-                    ControllerScript.Singleton.GetPlayerUnitUnitMain(item.Key, i).closestAllyUnit = ControllerScript.Singleton.GetPlayerUnit(item.Key, i - 1);
+                if (i != 0) //First unit has no ally in front
+                    ControllerScript.Singleton.GetPlayerUnitUnitMain(player.Value.Id, i).closestAllyUnit = ControllerScript.Singleton.GetPlayerUnit(player.Value.Id, i - 1);
 
                 if (ControllerScript.Singleton.GetPlayerUnitList(enemyPlayerId).Count > 0)
-                {
-                    ControllerScript.Singleton.GetPlayerUnitUnitMain(item.Key, i).closestEnemyUnit = ControllerScript.Singleton.GetPlayerUnit(enemyPlayerId, 0);
-                }
+                    ControllerScript.Singleton.GetPlayerUnitUnitMain(player.Value.Id, i).closestEnemyUnit = ControllerScript.Singleton.GetPlayerUnit(enemyPlayerId, 0);
                 else
-                {
-                    ControllerScript.Singleton.GetPlayerUnitUnitMain(item.Key, i).closestEnemyUnit = ControllerScript.Singleton.GetPlayerObject(enemyPlayerId);
-                }
+                    ControllerScript.Singleton.GetPlayerUnitUnitMain(player.Value.Id, i).closestEnemyUnit = ControllerScript.Singleton.GetPlayerObject(enemyPlayerId);
             }
         }
     }

@@ -54,7 +54,6 @@ public class ControllerScript : MonoBehaviour
     // GET methods
     public GameObject GetPlayerObject(ushort id)
     {
-        Debug.Log(id);
         return DataHandlerScript.Singleton.playerGameObjectList[id];
     }
     public Player GetPlayerClass(ushort id)
@@ -73,9 +72,9 @@ public class ControllerScript : MonoBehaviour
     {
         return DataHandlerScript.Singleton.civilizations[id];
     }
-    public GameObject GetPlayerUnit(ushort playerId, int unitId)
+    public GameObject GetPlayerUnit(ushort playerId, int index)
     {
-        return DataHandlerScript.Singleton.playerUnits[playerId][unitId];
+        return DataHandlerScript.Singleton.playerUnits[playerId][index];
     }
     public List<GameObject> GetPlayerUnitList(ushort playerId)
     {
@@ -105,14 +104,13 @@ public class ControllerScript : MonoBehaviour
             if (player.Value.IsLocal == true)
                 localId = player.Value.Id;
         }
-        Debug.Log(localId);
         return localId;
     }
 
     // DELETE methods
-    public void DeletePlayerUnit(ushort playerId, GameObject unit)
+    public void DeletePlayerUnit(ushort playerId, int index)
     {
-        DataHandlerScript.Singleton.playerUnits[playerId].Remove(unit);
+        DataHandlerScript.Singleton.playerUnits[playerId].RemoveAt(index);
     }
     public void DeletePlayer(ushort id)
     {
