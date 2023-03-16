@@ -21,6 +21,7 @@ public class UnitMain : PurchaseableMain
 
     //True = walking towards enemy, False = walking towards player
     public GameObject summoner;
+    public ushort summonerId;
     private bool walkingDirection;
     private bool isStopped;
     private bool isAttacking = false;
@@ -32,7 +33,7 @@ public class UnitMain : PurchaseableMain
     {
         attackTimer = 1 / attackSpeed;
         //True if player, false if enemy
-        walkingDirection = summoner.name == "Player" ? true : false;
+        walkingDirection = summoner.name == "Player1" ? true : false;
     }
 
     // Update is called once per frame
@@ -76,7 +77,7 @@ public class UnitMain : PurchaseableMain
     }
     public void Attack()
     {
-        if (closestEnemyUnit.name == "Player" || closestEnemyUnit.name == "Enemy")
+        if (closestEnemyUnit.name == "Player1" || closestEnemyUnit.name == "Player2")
         {
             if (homeDamage - closestEnemyUnit.GetComponent<SummonerMain>().defense > 0)
                 closestEnemyUnit.GetComponent<BaseMain>().TakeDamage(homeDamage - closestEnemyUnit.GetComponent<SummonerMain>().defense);
@@ -89,7 +90,7 @@ public class UnitMain : PurchaseableMain
 
     protected override void Die()
     {
-        GameObject.Find("GameHandler").GetComponent<GameHandlerScript>().RemoveUnit(gameObject);
+        GameHandlerScript.Singleton.RemoveUnit(gameObject);
         //Keep this line at all costs. Assures units die at the same time if 2 units are equal.
         StartAttacking();
         Destroy(gameObject);

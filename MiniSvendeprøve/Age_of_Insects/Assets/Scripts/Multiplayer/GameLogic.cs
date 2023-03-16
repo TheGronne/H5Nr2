@@ -27,56 +27,71 @@ public class GameLogic : MonoBehaviour
         Singleton = this;
     }
 
-
-    public static Dictionary<ushort, Player> list = new Dictionary<ushort, Player>();
-
-    public static void AddToLobby(ushort id, string username, int lobbyId)
+    public static void AddToLobby(ushort id, string username, int lobbyId, bool isReady)
     {
-        if (!list.ContainsKey(id))
+        if (!ControllerScript.Singleton.GetPlayerClassList().ContainsKey(id))
         {
             Player player = new Player();
-            player.IsReady = false;
+            player.IsReady = isReady;
             player.Id = id;
             player.Username = username;
             player.LobbyId = lobbyId;
+            if (id == NetworkManager.Singleton.Client.Id)
+                player.IsLocal = true;
+            else
+                player.IsLocal = false;
 
-            list.Add(id, player);
+            ControllerScript.Singleton.PostPlayerClass(id, player);
         }
         
-        UIManager.Singleton.UpdateLobbyPlayers(list);
+        UIManager.Singleton.UpdateLobbyPlayers(ControllerScript.Singleton.GetPlayerClassList());
     }
 
     public void RemoveFromLobby(ushort id)
     {
-        list.Remove(id);
-        UIManager.Singleton.UpdateLobbyPlayers(list);
+        ControllerScript.Singleton.DeletePlayer(id);
+        UIManager.Singleton.UpdateLobbyPlayers(ControllerScript.Singleton.GetPlayerClassList());
     }
 
     [MessageHandler((ushort)ServerToClientId.playerConnected)]
     private static void ConnectPlayer(Message message)
     {
-        AddToLobby(message.GetUShort(), message.GetString(), message.GetInt());
+        AddToLobby(message.GetUShort(), message.GetString(), message.GetInt(), message.GetBool());
     }
 
     [MessageHandler((ushort)ServerToClientId.playerReady)]
     private static void ReadyPlayer(Message message)
     {
-        list[message.GetUShort()].IsReady = message.GetBool();
-        UIManager.Singleton.UpdateLobbyPlayers(list);
+        Player player = ControllerScript.Singleton.GetPlayerClass(message.GetUShort());
+        player.IsReady = message.GetBool();
+        ControllerScript.Singleton.PatchPlayer(player);
+        UIManager.Singleton.UpdateLobbyPlayers(ControllerScript.Singleton.GetPlayerClassList());
     }
 
     [MessageHandler((ushort)ServerToClientId.startGame)]
     private static void StartGame(Message message)
     {
         if (message.GetBool())
-            GameObject.Find("GameHandler").GetComponent<GameHandlerScript>().StartGame();
-        UIManager.Singleton.UpdateLobbyPlayers(list);
+            GameHandlerScript.Singleton.StartGame(ControllerScript.Singleton.GetPlayerClassList());
+        UIManager.Singleton.UpdateLobbyPlayers(ControllerScript.Singleton.GetPlayerClassList());
     }
 
     [MessageHandler((ushort)ServerToClientId.playerRemoved)]
     private static void PlayerRemoved(Message message)
     {
-        list.Clear();
-        UIManager.Singleton.UpdateLobbyPlayers(list);
+        ControllerScript.Singleton.DeletePlayerList();
+        UIManager.Singleton.UpdateLobbyPlayers(ControllerScript.Singleton.GetPlayerClassList());
+    }
+
+    [MessageHandler((ushort)ServerToClientId.spawnUnit)]
+    private static void SpawnUnit(Message message)
+    {
+        GameHandlerScript.Singleton.SpawnUnit(message.GetUShort(), message.GetInt());
+    }
+
+    [MessageHandler((ushort)ServerToClientId.runCivilizationAction)]
+    private static void RunCivilizationAction(Message message)
+    {
+        GameHandlerScript.Singleton.RunPlayerCivilizationAction(message.GetUShort(), message.GetInt());
     }
 }

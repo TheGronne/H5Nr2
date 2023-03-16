@@ -10,6 +10,8 @@ public class CameraMain : MonoBehaviour
 
     private int theScreenWidth;
     private int theScreenHeight;
+
+    public bool hasStarted = false;
  
     void Start() 
     {
@@ -20,12 +22,15 @@ public class CameraMain : MonoBehaviour
  
     void Update() 
     {
-        if (Input.mousePosition.x > theScreenWidth - Boundary)
-            //Don't move if mouse in in the shop.
-            if (Input.mousePosition.y < theScreenHeight - ShopHeight - 80)
-                transform.position += Vector3.right * speed * Time.deltaTime;
-     
-        if (Input.mousePosition.x < 0 + Boundary)
-            transform.position -= Vector3.right * speed * Time.deltaTime;
+        if (hasStarted)
+        {
+            if (Input.mousePosition.x > theScreenWidth - Boundary)
+                //Don't move if mouse in in the shop.
+                if (Input.mousePosition.y < theScreenHeight - ShopHeight - 80)
+                    transform.position += Vector3.right * speed * Time.deltaTime;
+
+            if (Input.mousePosition.x < 0 + Boundary)
+                transform.position -= Vector3.right * speed * Time.deltaTime;
+        }
     }
 }

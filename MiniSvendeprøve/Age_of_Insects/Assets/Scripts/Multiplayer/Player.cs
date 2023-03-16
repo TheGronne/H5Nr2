@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-
     public ushort Id { get; set; }
     public bool IsLocal { get; set; }
     public bool IsReady { get; set; }

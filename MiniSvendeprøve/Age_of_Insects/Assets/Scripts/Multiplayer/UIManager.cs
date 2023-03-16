@@ -34,6 +34,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button readyButton2;
     [SerializeField] private GameObject inGame;
 
+    [SerializeField] private GameObject goldLabel;
+    [SerializeField] private GameObject experienceLabel;
+    [SerializeField] private GameObject localPlayer;
+
     private void Awake()
     {
         Singleton = this;
@@ -55,28 +59,20 @@ public class UIManager : MonoBehaviour
 
     public void ReadyClicked()
     {   
-        SendReady();
+        ControllerScript.Singleton.SendReady();
     }
 
     public void BackToMain()
     {
         usernameField.interactable = true;
         connectUI.SetActive(true);
+        lobby.SetActive(false);
     }
 
-    public void SendName()
+    public void SendConnect()
     {
         //Reliable means making sure package is received.
-        Message message = Message.Create(MessageSendMode.reliable, (ushort)ClientToServerId.name);
-        message.AddString(usernameField.text);
-        Debug.Log(usernameField.text);
-        NetworkManager.Singleton.Client.Send(message);
-    }
-
-    public void SendReady()
-    {
-        Message message = Message.Create(MessageSendMode.reliable, (ushort)ClientToServerId.ready);
-        NetworkManager.Singleton.Client.Send(message);
+        ControllerScript.Singleton.SendConnect(usernameField.text);
     }
 
     public void UpdateLobbyPlayers(Dictionary<ushort, Player> list)
@@ -91,7 +87,6 @@ public class UIManager : MonoBehaviour
         readyButton2.GetComponentInChildren<Text>().text = "Not ready";
         foreach (var item in players)
         {
-            Debug.Log(item.Username);
             if (item.LobbyId == 0)
             {
                 usernameText1.text = players[0].Username;
@@ -126,13 +121,30 @@ public class UIManager : MonoBehaviour
 
     public void SendStartGameRequest()
     {
-        Message message = Message.Create(MessageSendMode.reliable, (ushort)ClientToServerId.startGame);
-        NetworkManager.Singleton.Client.Send(message);
+        ControllerScript.Singleton.SendStartGameRequest();
     }
 
-    public void StartGame()
+    public void StartGame(List<Player> players)
     {
         lobby.SetActive(false);
         inGame.SetActive(true);
+
+        foreach (var item in players)
+        {
+            if (item.IsLocal)
+            {
+                localPlayer = GameObject.Find("Player" + (item.LobbyId + 1));
+                goldLabel = GameObject.Find("GoldLabel");
+                experienceLabel = GameObject.Find("ExperienceLabel");
+            } 
+        }
+        UpdateUI();
+        GameObject.Find("Main Camera").GetComponent<CameraMain>().hasStarted = true;
+    }
+
+    public void UpdateUI()
+    {
+        goldLabel.GetComponent<Text>().text = "Gold: " + localPlayer.GetComponent<SummonerMain>().gold.ToString();
+        experienceLabel.GetComponent<Text>().text = "EXP: " + localPlayer.GetComponent<SummonerMain>().experience.ToString();
     }
 }

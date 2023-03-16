@@ -218,7 +218,7 @@ MonoBehaviour:
       - m_Target: {fileID: 6281409200031754013, guid: a0a54ef1e9a981744ba84dbc3902c351,
           type: 3}
         m_TargetAssemblyTypeName: ShopScript, Assembly-CSharp
-        m_MethodName: EnemyPurchaseUnit
+        m_MethodName: PlayerPurchaseUnit
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -523,7 +523,7 @@ MonoBehaviour:
       - m_Target: {fileID: 6281409200031754013, guid: a0a54ef1e9a981744ba84dbc3902c351,
           type: 3}
         m_TargetAssemblyTypeName: ShopScript, Assembly-CSharp
-        m_MethodName: EnemyPurchaseUnit
+        m_MethodName: Player2PurchaseUnit
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

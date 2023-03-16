@@ -8,4 +8,5 @@ public class SummonerMain : BaseMain
     public int gold;
     public int defense;
     public int civilizationId;
+    public string username;
 }

@@ -9,13 +9,17 @@ public enum ServerToClientId : ushort
     playerReady = 2,
     startGame = 3,
     playerRemoved = 4,
+    spawnUnit = 5,
+    runCivilizationAction = 7,
 }
 
 public enum ClientToServerId : ushort
 {
-    name = 1,
+    connected = 1,
     ready = 2,
     startGame = 3,
+    unitPurchase = 4,
+    civilizationPurchase = 6,
 }
 
 public class NetworkManager : MonoBehaviour
@@ -74,7 +78,7 @@ public class NetworkManager : MonoBehaviour
 
     private void DidConnect(object sender, EventArgs e)
     {
-        UIManager.Singleton.SendName();
+        UIManager.Singleton.SendConnect();
     }
 
     private void FailedToConnect(object sender, EventArgs e)

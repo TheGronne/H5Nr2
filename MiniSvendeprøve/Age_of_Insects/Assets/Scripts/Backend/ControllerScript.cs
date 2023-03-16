@@ -1,20 +1,39 @@
-﻿using System.Collections;
+﻿using RiptideNetworking;
+using RiptideNetworking.Utils;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ControllerScript : MonoBehaviour
 {
-    private DataHandlerScript DataHandler;
-    private GameHandlerScript GameHandler;
+    private static ControllerScript _singleton;
+
+    public static ControllerScript Singleton
+    {
+        get => _singleton;
+        private set
+        {
+            if (_singleton == null)
+                _singleton = value;
+            else if (_singleton != value)
+            {
+                Debug.Log($"{ nameof(ControllerScript)} instance already exists, destroying duplicate");
+                Destroy(value);
+            }
+        }
+    }
+
+    private void Awake()
+    {
+        Singleton = this;
+    }
+
     private GameObject Shop;
     private ShopScript ShopScript;
 
-    
     // Start is called before the first frame update
     void Start()
     {
-        DataHandler = GameObject.Find("DataHandler").GetComponent<DataHandlerScript>();
-        GameHandler = GameObject.Find("GameHandler").GetComponent<GameHandlerScript>();
         Shop = GameObject.Find("Shop");
         ShopScript = Shop.GetComponent<ShopScript>();
     }
@@ -25,123 +44,146 @@ public class ControllerScript : MonoBehaviour
         
     }
 
-    public void RunPlayerCivilizationAction(int id)
+    public void RunPlayerCivilizationAction(ushort playerId, int unitId)
     {
-        DataHandler.RunCivilizationAction(id, GetPlayerSummonerMain());
-        ShopScript.SetupNewShop(DataHandler.UnitShops[id], DataHandler.TurretShops[id], DataHandler.CivilizationShops[id]);
-        GetPlayerSummonerMain().civilizationId = id;
-    }
-    public void RunEnemyCivilizationAction(int id)
-    {
-        DataHandler.RunCivilizationAction(id, GetEnemySummonerMain());
-        ShopScript.SetupNewShop(DataHandler.UnitShops[id], DataHandler.TurretShops[id], DataHandler.CivilizationShops[id]);
-        GetEnemySummonerMain().civilizationId = id;
+        DataHandlerScript.Singleton.RunCivilizationAction(unitId, GetPlayerSummonerMain(playerId));
+        ShopScript.SetupNewShop(DataHandlerScript.Singleton.UnitShops[unitId], DataHandlerScript.Singleton.TurretShops[unitId], DataHandlerScript.Singleton.CivilizationShops[unitId]);
+        GetPlayerSummonerMain(playerId).civilizationId = unitId;
     }
 
     // GET methods
-    public GameObject GetPlayer()
+    public GameObject GetPlayerObject(ushort id)
     {
-        return DataHandler.player;
+        Debug.Log(id);
+        return DataHandlerScript.Singleton.playerGameObjectList[id];
     }
-    public GameObject GetEnemy()
+    public Player GetPlayerClass(ushort id)
     {
-        return DataHandler.enemy;
+        return DataHandlerScript.Singleton.playerClassList[id];
     }
     public GameObject GetUnit(int id)
     {
-        return DataHandler.units[id];
+        return DataHandlerScript.Singleton.units[id];
     }
     public GameObject GetTurret(int id)
     {
-        return DataHandler.turrets[id];
+        return DataHandlerScript.Singleton.turrets[id];
     }
     public GameObject GetCivilization(int id)
     {
-        return DataHandler.civilizations[id];
+        return DataHandlerScript.Singleton.civilizations[id];
     }
-    public GameObject GetPlayerUnit(int id)
+    public GameObject GetPlayerUnit(ushort playerId, int unitId)
     {
-        return DataHandler.playerUnits[id];
+        return DataHandlerScript.Singleton.playerUnits[playerId][unitId];
     }
-    public GameObject GetEnemyUnit(int id)
+    public List<GameObject> GetPlayerUnitList(ushort playerId)
     {
-        return DataHandler.enemyUnits[id];
+        return DataHandlerScript.Singleton.playerUnits[playerId];
     }
-    public List<GameObject> GetPlayerUnitList()
+    public SummonerMain GetPlayerSummonerMain(ushort id)
     {
-        return DataHandler.playerUnits;
+        return DataHandlerScript.Singleton.playerGameObjectList[id].GetComponent<SummonerMain>();
     }
-    public List<GameObject> GetEnemyUnitList()
+    public UnitMain GetPlayerUnitUnitMain(ushort playerId, int id)
     {
-        return DataHandler.enemyUnits;
+        return GetPlayerUnit(playerId, id).GetComponent<UnitMain>();
     }
-    public List<GameObject> GetPlayerUnitQueue()
+    public Dictionary<ushort, GameObject> GetPlayerObjectList()
     {
-        return DataHandler.playerUnitQueue;
+        return DataHandlerScript.Singleton.playerGameObjectList;
     }
-    public List<GameObject> GetEnemyUnitQueue()
+    public Dictionary<ushort, Player> GetPlayerClassList()
     {
-        return DataHandler.enemyUnitQueue;
+        return DataHandlerScript.Singleton.playerClassList;
     }
-    public GameObject GetPlayerUnitQueueUnit(int id)
+    public ushort GetLocalPlayerId()
     {
-        return DataHandler.playerUnitQueue[id];
-    }
-    public GameObject GetEnemyUnitQueueUnit(int id)
-    {
-        return DataHandler.enemyUnitQueue[id];
-    }
-    public SummonerMain GetPlayerSummonerMain()
-    {
-        return DataHandler.player.GetComponent<SummonerMain>();
-    }
-    public SummonerMain GetEnemySummonerMain()
-    {
-        return DataHandler.enemy.GetComponent<SummonerMain>();
-    }
-    public UnitMain GetPlayerUnitUnitMain(int id)
-    {
-        return GetPlayerUnit(id).GetComponent<UnitMain>();
-    }
-    public UnitMain GetEnemyUnitUnitMain(int id)
-    {
-        return GetEnemyUnit(id).GetComponent<UnitMain>();
+        ushort localId = new ushort();
+        foreach (var player in DataHandlerScript.Singleton.playerClassList)
+        {
+            if (player.Value.IsLocal == true)
+                localId = player.Value.Id;
+        }
+        Debug.Log(localId);
+        return localId;
     }
 
     // DELETE methods
-    public void DeletePlayerUnit(GameObject unit)
+    public void DeletePlayerUnit(ushort playerId, GameObject unit)
     {
-        DataHandler.playerUnits.Remove(unit);
+        DataHandlerScript.Singleton.playerUnits[playerId].Remove(unit);
     }
-    public void DeleteEnemyUnit(GameObject unit)
+    public void DeletePlayer(ushort id)
     {
-        DataHandler.enemyUnits.Remove(unit);
+        DataHandlerScript.Singleton.playerClassList.Remove(id);
     }
-    public void DeletePlayerUnitQueueUnit(int id)
+    public void DeletePlayerList()
     {
-        DataHandler.playerUnitQueue.RemoveAt(id);
+        DataHandlerScript.Singleton.playerClassList.Clear();
     }
-    public void DeleteEnemyUnitQueueUnit(int id)
-    {
-        DataHandler.enemyUnitQueue.RemoveAt(id);
-    }
-
 
     // POST methods
-    public void PostPlayerUnit(GameObject unit)
+    public void PostPlayerUnit(ushort playerId, GameObject unit)
     {
-        DataHandler.playerUnits.Add(unit);
+        DataHandlerScript.Singleton.playerUnits[playerId].Add(unit);
     }
-    public void PostEnemyUnit(GameObject unit)
+    public void PostPlayerClass(ushort id, Player player)
     {
-        DataHandler.enemyUnits.Add(unit);
+        DataHandlerScript.Singleton.playerClassList.Add(id, player);
     }
-    public void PostUnitToPlayerQueue(GameObject unit)
+    public void PostPlayerObject(ushort id, GameObject player)
     {
-        DataHandler.playerUnitQueue.Add(unit);
+        DataHandlerScript.Singleton.playerGameObjectList.Add(id, player);
+        DataHandlerScript.Singleton.playerUnits.Add(id, new List<GameObject>());
     }
-    public void PostUnitToEnemyQueue(GameObject unit)
+
+    //PATH methods
+    public void PatchPlayerName(ushort id, string name)
     {
-        DataHandler.enemyUnitQueue.Add(unit);
+        DataHandlerScript.Singleton.playerGameObjectList[id].GetComponent<SummonerMain>().username = name;
+    }
+    public void PatchPlayer(Player player)
+    {
+        DataHandlerScript.Singleton.playerClassList[player.Id] = player;
+    }
+
+
+    // Multiplayer messages
+    public void SendReady()
+    {
+        Message message = Message.Create(MessageSendMode.reliable, (ushort)ClientToServerId.ready);
+        NetworkManager.Singleton.Client.Send(message);
+    }
+
+    public void SendConnect(string username)
+    {
+        //Reliable means making sure package is received.
+        Message message = Message.Create(MessageSendMode.reliable, (ushort)ClientToServerId.connected);
+        message.AddString(username);
+        NetworkManager.Singleton.Client.Send(message);
+    }
+
+    public void SendStartGameRequest()
+    {
+        Message message = Message.Create(MessageSendMode.reliable, (ushort)ClientToServerId.startGame);
+        NetworkManager.Singleton.Client.Send(message);
+    }
+
+    public void SendUnitPurchase(int unitId)
+    {
+        float spawnTimer = Singleton.GetUnit(unitId).GetComponent<UnitMain>().summonTime;
+
+        Message message = Message.Create(MessageSendMode.reliable, (ushort)ClientToServerId.unitPurchase);
+        message.AddInt(unitId);
+        message.AddFloat(spawnTimer);
+        NetworkManager.Singleton.Client.Send(message);
+    }
+
+    public void SendCivilizationPurchase(int civId)
+    {
+        Message message = Message.Create(MessageSendMode.reliable, (ushort)ClientToServerId.civilizationPurchase);
+        message.AddInt(civId);
+        NetworkManager.Singleton.Client.Send(message);
     }
 }

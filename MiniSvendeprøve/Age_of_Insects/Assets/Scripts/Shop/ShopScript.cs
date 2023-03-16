@@ -69,48 +69,28 @@ public class ShopScript : MonoBehaviour
 
     public void PlayerPurchaseUnit(int id)
     {
-        //i wish I could add controller as a private object, but since shop is a prefab I would have to do tons of rework, including turning controller into prefab
-        var player = GameObject.Find("Controller").GetComponent<ControllerScript>().GetPlayer();
+        var player = ControllerScript.Singleton.GetPlayerObject(ControllerScript.Singleton.GetLocalPlayerId());
         if (PurchaseUnit(player, id))
         {
-            var unit = GameObject.Find("Controller").GetComponent<ControllerScript>().GetUnit(id);
-            GameObject.Find("GameHandler").GetComponent<GameHandlerScript>().PlayerPurchaseUnit(unit);
-        }
-    }
-
-    public void EnemyPurchaseUnit(int id)
-    {
-        var enemy = GameObject.Find("Controller").GetComponent<ControllerScript>().GetEnemy();
-        if (PurchaseUnit(enemy, id))
-        {
-            var unit = GameObject.Find("Controller").GetComponent<ControllerScript>().GetUnit(id);
-            GameObject.Find("GameHandler").GetComponent<GameHandlerScript>().EnemyPurchaseUnit(unit);
+            UIManager.Singleton.UpdateUI();
+            ControllerScript.Singleton.SendUnitPurchase(id);
         }
     }
 
     public void PlayerPurchaseCivilization(int id)
     {
-        var player = GameObject.Find("Controller").GetComponent<ControllerScript>().GetPlayer();
+        var player = ControllerScript.Singleton.GetPlayerObject(ControllerScript.Singleton.GetLocalPlayerId());
         if (PurchaseCivilization(player, id))
         {
-            GameObject.Find("GameHandler").GetComponent<GameHandlerScript>().PlayerPurchaseCivilization(id);
-        }
-    }
-
-    public void EnemyPurchaseCivilization(int id)
-    {
-        var enemy = GameObject.Find("Controller").GetComponent<ControllerScript>().GetEnemy();
-        if (PurchaseCivilization(enemy, id))
-        {
-            GameObject.Find("GameHandler").GetComponent<GameHandlerScript>().EnemyPurchaseCivilization(id);
+            ControllerScript.Singleton.SendCivilizationPurchase(id);
         }
     }
 
     public bool PurchaseUnit(GameObject purchaser, int unitId)
     {
-        if (purchaser.GetComponent<SummonerMain>().gold >= GameObject.Find("Controller").GetComponent<ControllerScript>().GetUnit(unitId).GetComponent<PurchaseableMain>().goldCost)
+        if (purchaser.GetComponent<SummonerMain>().gold >= ControllerScript.Singleton.GetUnit(unitId).GetComponent<PurchaseableMain>().goldCost)
         {
-            purchaser.GetComponent<SummonerMain>().gold -= GameObject.Find("Controller").GetComponent<ControllerScript>().GetUnit(unitId).GetComponent<PurchaseableMain>().goldCost;
+            purchaser.GetComponent<SummonerMain>().gold -= ControllerScript.Singleton.GetUnit(unitId).GetComponent<PurchaseableMain>().goldCost;
             return true;
         }
         return false; 
@@ -118,9 +98,9 @@ public class ShopScript : MonoBehaviour
 
     public bool PurchaseTurret(GameObject purchaser, int turretId)
     {
-        if (purchaser.GetComponent<SummonerMain>().gold >= GameObject.Find("Controller").GetComponent<ControllerScript>().GetTurret(turretId).GetComponent<PurchaseableMain>().goldCost)
+        if (purchaser.GetComponent<SummonerMain>().gold >= ControllerScript.Singleton.GetTurret(turretId).GetComponent<PurchaseableMain>().goldCost)
         {
-            purchaser.GetComponent<SummonerMain>().gold -= GameObject.Find("Controller").GetComponent<ControllerScript>().GetTurret(turretId).GetComponent<PurchaseableMain>().goldCost;
+            purchaser.GetComponent<SummonerMain>().gold -= ControllerScript.Singleton.GetTurret(turretId).GetComponent<PurchaseableMain>().goldCost;
             return true;
         }
         return false;
@@ -128,9 +108,9 @@ public class ShopScript : MonoBehaviour
 
     public bool PurchaseCivilization(GameObject purchaser, int civId)
     {
-        if (purchaser.GetComponent<SummonerMain>().gold >= GameObject.Find("Controller").GetComponent<ControllerScript>().GetCivilization(civId).GetComponent<PurchaseableMain>().goldCost)
+        if (purchaser.GetComponent<SummonerMain>().gold >= ControllerScript.Singleton.GetCivilization(civId).GetComponent<PurchaseableMain>().goldCost)
         {
-            purchaser.GetComponent<SummonerMain>().gold -= GameObject.Find("Controller").GetComponent<ControllerScript>().GetCivilization(civId).GetComponent<PurchaseableMain>().goldCost;
+            purchaser.GetComponent<SummonerMain>().gold -= ControllerScript.Singleton.GetCivilization(civId).GetComponent<PurchaseableMain>().goldCost;
             return true;
         }
         return false;

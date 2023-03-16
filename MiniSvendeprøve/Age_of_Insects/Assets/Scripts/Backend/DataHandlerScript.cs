@@ -4,14 +4,32 @@ using UnityEngine;
 
 public class DataHandlerScript : MonoBehaviour
 {
-    public GameObject player;
-    public GameObject enemy;
+    private static DataHandlerScript _singleton;
 
-    public List<GameObject> playerUnits = new List<GameObject>();
-    public List<GameObject> enemyUnits = new List<GameObject>();
+    public static DataHandlerScript Singleton
+    {
+        get => _singleton;
+        private set
+        {
+            if (_singleton == null)
+                _singleton = value;
+            else if (_singleton != value)
+            {
+                Debug.Log($"{ nameof(DataHandlerScript)} instance already exists, destroying duplicate");
+                Destroy(value);
+            }
+        }
+    }
 
-    public List<GameObject> playerUnitQueue = new List<GameObject>();
-    public List<GameObject> enemyUnitQueue = new List<GameObject>();
+    private void Awake()
+    {
+        Singleton = this;
+    }
+
+    public Dictionary<ushort, Player> playerClassList = new Dictionary<ushort, Player>();
+    public Dictionary<ushort, GameObject> playerGameObjectList = new Dictionary<ushort, GameObject>();
+
+    public Dictionary<ushort, List<GameObject>> playerUnits = new Dictionary<ushort, List<GameObject>>();
 
     public List<GameObject> units = new List<GameObject>();
     public List<GameObject> turrets = new List<GameObject>();
@@ -30,12 +48,6 @@ public class DataHandlerScript : MonoBehaviour
     {
         civilizationActions.Add(Ant);
         civilizationActions.Add(Beetle);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void RunCivilizationAction(int civId, SummonerMain purchaser)
