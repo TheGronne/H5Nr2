@@ -27,11 +27,15 @@ public class GameHandlerScript : MonoBehaviour
         Singleton = this;
     }
 
+
+    public bool GameIsStarted = false;
+
     public void StartGame(Dictionary<ushort, Player> list)
     {
         List<ushort> playerIds = list.Select(kvp => kvp.Key).ToList();
         List<Player> players = list.Select(kvp => kvp.Value).ToList();
 
+        GameIsStarted = true;
         UIManager.Singleton.StartGame(players);
 
         ControllerScript.Singleton.PostPlayerObject(playerIds[0], GameObject.Find("Player1"));
@@ -60,8 +64,8 @@ public class GameHandlerScript : MonoBehaviour
         {
             if (removedUnit.GetComponent<UnitMain>().summonerId != player.Value.Id)
             {
-                ControllerScript.Singleton.GetPlayerSummonerMain(player.Key).experience += removedUnit.GetComponent<UnitMain>().experienceGiven;
-                ControllerScript.Singleton.GetPlayerSummonerMain(player.Key).gold += removedUnit.GetComponent<UnitMain>().goldGiven;
+                ControllerScript.Singleton.GetPlayerSummonerMain(player.Key).experience += (int)Mathf.Ceil(removedUnit.GetComponent<UnitMain>().goldCost + removedUnit.GetComponent<UnitMain>().goldCost / 4);
+                ControllerScript.Singleton.GetPlayerSummonerMain(player.Key).gold += (int)Mathf.Ceil(removedUnit.GetComponent<UnitMain>().goldCost + removedUnit.GetComponent<UnitMain>().goldCost / 5);
             } else
             {
                 ControllerScript.Singleton.DeletePlayerUnit(player.Key, 0);

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7014101021518056133
+--- !u!1 &3652877149535079962
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4417235036382093070}
-  - component: {fileID: 7585623117010725895}
+  - component: {fileID: 732314998337496047}
+  - component: {fileID: 6058946913813741147}
   m_Layer: 0
   m_Name: CivilizationBeetle
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4417235036382093070
+--- !u!4 &732314998337496047
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7014101021518056133}
+  m_GameObject: {fileID: 3652877149535079962}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1435.472, y: 1142.7122, z: -481.36005}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,24 +31,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7585623117010725895
+--- !u!114 &6058946913813741147
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7014101021518056133}
+  m_GameObject: {fileID: 3652877149535079962}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93b5fcbd80d20a043a8a5c0116f54bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  goldCost: 100
-  experienceRequired: 100
-  units: []
-  turrets: []
-  civilizations:
-  - {fileID: 3652877149535079962, guid: ecc14307c6badae43ada5b254eb1d146, type: 3}
-  - {fileID: 1304307380918346652, guid: a80229b91a908e74a871078a1a8671f4, type: 3}
-  - {fileID: 7014101021518056133}
+  goldCost: 0
+  id: 0
+  experienceRequired: 100000

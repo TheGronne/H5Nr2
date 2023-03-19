@@ -45,8 +45,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 0
   goldCost: 0
-  experienceRequired: 0
-  units: []
-  turrets: []
-  civilizations:
-  - {fileID: 3652877149535079962}
+  id: 0
+  experienceRequired: 100000

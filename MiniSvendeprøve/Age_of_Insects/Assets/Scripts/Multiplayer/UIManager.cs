@@ -67,6 +67,14 @@ public class UIManager : MonoBehaviour
         usernameField.interactable = true;
         connectUI.SetActive(true);
         lobby.SetActive(false);
+        inGame.SetActive(false);
+    }
+
+    public void BackToLobby()
+    {
+        connectUI.SetActive(false);
+        lobby.SetActive(true);
+        inGame.SetActive(false);
     }
 
     public void SendConnect()
@@ -89,8 +97,8 @@ public class UIManager : MonoBehaviour
         {
             if (item.LobbyId == 0)
             {
-                usernameText1.text = players[0].Username;
-                if (players[0].IsReady)
+                usernameText1.text = item.Username;
+                if (item.IsReady)
                 {
                     readyButton1.GetComponent<Image>().color = Color.green;
                     readyButton1.GetComponentInChildren<Text>().text = "Ready";
@@ -104,8 +112,8 @@ public class UIManager : MonoBehaviour
 
             if (item.LobbyId == 1)
             {
-                usernameText2.text = players[1].Username;
-                if (players[1].IsReady)
+                usernameText2.text = item.Username;
+                if (item.IsReady)
                 {
                     readyButton2.GetComponent<Image>().color = Color.green;
                     readyButton2.GetComponentInChildren<Text>().text = "Ready";
@@ -130,14 +138,9 @@ public class UIManager : MonoBehaviour
         inGame.SetActive(true);
 
         foreach (var item in players)
-        {
             if (item.IsLocal)
-            {
                 localPlayer = GameObject.Find("Player" + (item.LobbyId + 1));
-                goldLabel = GameObject.Find("GoldLabel");
-                experienceLabel = GameObject.Find("ExperienceLabel");
-            } 
-        }
+
         UpdateUI();
         GameObject.Find("Main Camera").GetComponent<CameraMain>().hasStarted = true;
     }

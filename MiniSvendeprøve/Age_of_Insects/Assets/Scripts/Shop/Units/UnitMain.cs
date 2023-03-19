@@ -13,9 +13,6 @@ public class UnitMain : PurchaseableMain
     public float walkingSpeed = 0;
     public int sizeRadius = 0;
 
-    public int experienceGiven = 0;
-    public int goldGiven = 0;
-
     public GameObject closestEnemyUnit;
     public GameObject closestAllyUnit;
 
@@ -34,6 +31,8 @@ public class UnitMain : PurchaseableMain
         attackTimer = 1 / attackSpeed;
         //True if player, false if enemy
         walkingDirection = summoner.name == "Player1" ? true : false;
+        gameObject.GetComponent<UnitHealthbar>().SetMaxHealth(health);
+        gameObject.GetComponent<UnitHealthbar>().SetHealth(health);
     }
 
     // Update is called once per frame
@@ -43,13 +42,27 @@ public class UnitMain : PurchaseableMain
             Die();
 
         //Attack enemy unit
-        if (closestEnemyUnit != null && Math.Abs(closestEnemyUnit.transform.position.x - transform.position.x) < attackRange)
-            StartAttacking();
-        //Stop behind ally unit
-        else if (closestAllyUnit != null && Math.Abs(closestAllyUnit.transform.position.x - transform.position.x) < sizeRadius)
-            StopMoving();
-        else 
-            StartMoving();
+        if (closestEnemyUnit.tag == "Player")
+        {
+            if (closestEnemyUnit != null && Math.Abs(closestEnemyUnit.transform.position.x - transform.position.x) < attackRange + 2)
+                StartAttacking();
+            //Stop behind ally unit
+            else if (closestAllyUnit != null && Math.Abs(closestAllyUnit.transform.position.x - transform.position.x) < sizeRadius)
+                StopMoving();
+            else
+                StartMoving();
+        }
+        else
+        {
+            if (closestEnemyUnit != null && Math.Abs(closestEnemyUnit.transform.position.x - transform.position.x) < attackRange)
+                StartAttacking();
+            //Stop behind ally unit
+            else if (closestAllyUnit != null && Math.Abs(closestAllyUnit.transform.position.x - transform.position.x) < sizeRadius)
+                StopMoving();
+            else
+                StartMoving();
+        }
+       
 
         if (!isStopped)
         {
@@ -105,5 +118,11 @@ public class UnitMain : PurchaseableMain
     {
         isAttacking = false;
         isStopped = false;
+    }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        gameObject.GetComponent<UnitHealthbar>().SetHealth(health);
     }
 }

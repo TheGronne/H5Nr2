@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShopScript : MonoBehaviour
 {
@@ -108,12 +109,28 @@ public class ShopScript : MonoBehaviour
 
     public bool PurchaseCivilization(GameObject purchaser, int civId)
     {
-        if (purchaser.GetComponent<SummonerMain>().gold >= ControllerScript.Singleton.GetCivilization(civId).GetComponent<PurchaseableMain>().goldCost)
+        if (purchaser.GetComponent<SummonerMain>().experience >= ControllerScript.Singleton.GetCivilization(civId).GetComponent<CivilizationMain>().experienceRequired)
         {
-            purchaser.GetComponent<SummonerMain>().gold -= ControllerScript.Singleton.GetCivilization(civId).GetComponent<PurchaseableMain>().goldCost;
+            purchaser.GetComponent<SummonerMain>().experience -= ControllerScript.Singleton.GetCivilization(civId).GetComponent<CivilizationMain>().experienceRequired;
             return true;
         }
         return false;
     }
 
+    public void OnUnitButtonHover(int unitId)
+    {
+        GameObject.Find("PrizeLabel").GetComponent<Text>().color = new Color(1f, 1f, 0f);
+        GameObject.Find("PrizeLabel").GetComponent<Text>().text = "Gold cost: " + ControllerScript.Singleton.GetUnit(unitId).GetComponent<UnitMain>().goldCost.ToString();
+    }
+
+    public void OnCivilizationButtonHover(int civId)
+    {
+        GameObject.Find("PrizeLabel").GetComponent<Text>().color = new Color(0f, 1f, 0f);
+        GameObject.Find("PrizeLabel").GetComponent<Text>().text = "EXP Required: " + ControllerScript.Singleton.GetCivilization(civId).GetComponent<CivilizationMain>().experienceRequired.ToString();
+    }
+
+    public void OffButtonHover()
+    {
+        GameObject.Find("PrizeLabel").GetComponent<Text>().text = "";
+    }
 }

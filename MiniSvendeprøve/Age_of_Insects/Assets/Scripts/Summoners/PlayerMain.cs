@@ -7,7 +7,7 @@ public class PlayerMain : SummonerMain
     public bool isAlive = true;
 
     public int passiveGoldGenerationAmount = 1;
-    public float passiveGoldGenerationRegularity = 5;
+    public float passiveGoldGenerationRegularity = 1;
     public float passiveGoldGenerationTimer;
     public bool runPassiveGoldGenerationTimer = true;
 
@@ -15,7 +15,7 @@ public class PlayerMain : SummonerMain
     void Start()
     {
         health = 1000;
-        gold = 200;
+        gold = 125;
         experience = 0;
         defense = 0;
         civilizationId = 0;
@@ -25,14 +25,16 @@ public class PlayerMain : SummonerMain
     // Update is called once per frame
     void Update()
     {
-        if (passiveGoldGenerationTimer > 0 && runPassiveGoldGenerationTimer == true)
+        if (GameHandlerScript.Singleton.GameIsStarted)
         {
-            passiveGoldGenerationTimer -= Time.deltaTime;
-        }
-        else
-        {
-            gold += passiveGoldGenerationAmount;
-            passiveGoldGenerationTimer = passiveGoldGenerationRegularity;
+            if (passiveGoldGenerationTimer > 0 && runPassiveGoldGenerationTimer == true)
+                passiveGoldGenerationTimer -= Time.deltaTime;
+            else
+            {
+                gold += passiveGoldGenerationAmount;
+                passiveGoldGenerationTimer = passiveGoldGenerationRegularity;
+                UIManager.Singleton.UpdateUI();
+            }
         }
     }
 

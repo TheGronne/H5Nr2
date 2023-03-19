@@ -47,10 +47,17 @@ public class GameLogic : MonoBehaviour
         UIManager.Singleton.UpdateLobbyPlayers(ControllerScript.Singleton.GetPlayerClassList());
     }
 
+    public void ReturnToLobby()
+    {
+        UIManager.Singleton.BackToLobby();
+    }
+
     public void RemoveFromLobby(ushort id)
     {
         ControllerScript.Singleton.DeletePlayer(id);
         UIManager.Singleton.UpdateLobbyPlayers(ControllerScript.Singleton.GetPlayerClassList());
+        if (GameHandlerScript.Singleton.GameIsStarted)
+            ReturnToLobby();
     }
 
     [MessageHandler((ushort)ServerToClientId.playerConnected)]
