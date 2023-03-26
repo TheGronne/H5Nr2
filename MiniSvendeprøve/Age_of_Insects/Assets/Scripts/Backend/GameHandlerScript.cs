@@ -36,13 +36,14 @@ public class GameHandlerScript : MonoBehaviour
         List<Player> players = list.Select(kvp => kvp.Value).ToList();
 
         GameIsStarted = true;
-        UIManager.Singleton.StartGame(players);
 
         ControllerScript.Singleton.PostPlayerObject(playerIds[0], GameObject.Find("Player1"));
         ControllerScript.Singleton.PostPlayerObject(playerIds[1], GameObject.Find("Player2"));
 
         ControllerScript.Singleton.PatchPlayerName(players[0].Id, players[0].Username);
         ControllerScript.Singleton.PatchPlayerName(players[1].Id, players[1].Username);
+
+        UIManager.Singleton.StartGame();
     }
 
     public void SpawnUnit(ushort playerId, int unitId)

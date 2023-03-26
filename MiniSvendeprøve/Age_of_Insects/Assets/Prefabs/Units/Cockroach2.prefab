@@ -352,10 +352,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 115
   goldCost: 200
-  baseDamage: 5
-  homeDamage: 5
+  baseDamage: 20
+  homeDamage: 20
   attackSpeed: 1
-  attackRange: 3
+  attackRange: 4
   walkingSpeed: 0.5
   sizeRadius: 1
   closestEnemyUnit: {fileID: 0}

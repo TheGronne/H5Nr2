@@ -32,12 +32,10 @@ public class DataHandlerScript : MonoBehaviour
     public Dictionary<ushort, List<GameObject>> playerUnits = new Dictionary<ushort, List<GameObject>>();
 
     public List<GameObject> units = new List<GameObject>();
-    public List<GameObject> turrets = new List<GameObject>();
     public List<GameObject> civilizations = new List<GameObject>();
 
     // Must always be in same order as civilizations list
     public List<GameObject> UnitShops = new List<GameObject>();
-    public List<GameObject> TurretShops = new List<GameObject>();
     public List<GameObject> CivilizationShops = new List<GameObject>();
 
     public delegate void civAction(GameObject purchaser);
@@ -72,50 +70,50 @@ public class DataHandlerScript : MonoBehaviour
     private void Ladybug(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 2;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 1f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0f, 0.75f, 1f, 1f);
     }
 
     private void Earthworm(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 1;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.75f, 1f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1f, 0.5f, 1f);
     }
 
     private void Flea(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 0;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0f, 1f);
     }
 
     // Generation 3
     private void Cockroach(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 10;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 1f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0f, 0.25f, 1f, 1f);
     }
 
     private void Millipede(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 8;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.75f, 1f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0f, 0.75f, 0.75f, 1f);
     }
 
     private void Caterpillar(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 6;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.25f, 1f, 0.25f, 1f);
     }
 
     private void Cricket(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 4;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 1f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.75f, 0.75f, 0f, 1f);
     }
 
     private void Termite(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 2;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.75f, 1f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.25f, 0f, 1f);
     }
 
 
@@ -123,36 +121,36 @@ public class DataHandlerScript : MonoBehaviour
     private void Beetle(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 10000;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0f, 0f, 1f, 1f);
     }
     private void Scorpion(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 100;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0f, 0.5f, 1f, 1f);
     }
     private void Centipede(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 80;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0.5f, 1f);
     }
     private void PrayingMantis(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 60;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0f, 1f, 0f, 1f);
     }
     private void Spider(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 40;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(0.5f, 1f, 0f, 1f);
     }
     private void Wasp(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 25;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.5f, 0f, 1f);
     }
     private void Ant(GameObject purchaser)
     {
         purchaser.GetComponent<SummonerMain>().defense = 10;
-        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0.75f, 0.75f, 1f);
+        purchaser.GetComponent<SpriteRenderer>().color = new Color(1f, 0f, 0f, 1f);
     }
 }

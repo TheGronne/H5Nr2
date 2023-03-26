@@ -36,7 +36,6 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private GameObject goldLabel;
     [SerializeField] private GameObject experienceLabel;
-    [SerializeField] private GameObject localPlayer;
 
     private void Awake()
     {
@@ -132,14 +131,10 @@ public class UIManager : MonoBehaviour
         ControllerScript.Singleton.SendStartGameRequest();
     }
 
-    public void StartGame(List<Player> players)
+    public void StartGame()
     {
         lobby.SetActive(false);
         inGame.SetActive(true);
-
-        foreach (var item in players)
-            if (item.IsLocal)
-                localPlayer = GameObject.Find("Player" + (item.LobbyId + 1));
 
         UpdateUI();
         GameObject.Find("Main Camera").GetComponent<CameraMain>().hasStarted = true;
@@ -147,7 +142,7 @@ public class UIManager : MonoBehaviour
 
     public void UpdateUI()
     {
-        goldLabel.GetComponent<Text>().text = "Gold: " + localPlayer.GetComponent<SummonerMain>().gold.ToString();
-        experienceLabel.GetComponent<Text>().text = "EXP: " + localPlayer.GetComponent<SummonerMain>().experience.ToString();
+        goldLabel.GetComponent<Text>().text = "Gold: " + ControllerScript.Singleton.GetPlayerObject(ControllerScript.Singleton.GetLocalPlayerId()).GetComponent<SummonerMain>().gold.ToString();
+        experienceLabel.GetComponent<Text>().text = "EXP: " + ControllerScript.Singleton.GetPlayerObject(ControllerScript.Singleton.GetLocalPlayerId()).GetComponent<SummonerMain>().experience.ToString();
     }
 }

@@ -49,8 +49,7 @@ public class ControllerScript : MonoBehaviour
         DataHandlerScript.Singleton.RunCivilizationAction(civId, GetPlayerObject(playerId));
         GetPlayerSummonerMain(playerId).civilizationId = civId;
         if (playerId == GetLocalPlayerId())
-            ShopScript.SetupNewShop(DataHandlerScript.Singleton.UnitShops[civId], DataHandlerScript.Singleton.TurretShops[civId], DataHandlerScript.Singleton.CivilizationShops[civId]);
-
+            ShopScript.SetupNewShop(DataHandlerScript.Singleton.UnitShops[civId], DataHandlerScript.Singleton.CivilizationShops[civId]);
     }
 
     // GET methods
@@ -65,10 +64,6 @@ public class ControllerScript : MonoBehaviour
     public GameObject GetUnit(int id)
     {
         return DataHandlerScript.Singleton.units[id];
-    }
-    public GameObject GetTurret(int id)
-    {
-        return DataHandlerScript.Singleton.turrets[id];
     }
     public GameObject GetCivilization(int id)
     {

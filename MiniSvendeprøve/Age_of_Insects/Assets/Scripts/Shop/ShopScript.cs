@@ -5,21 +5,16 @@ using UnityEngine.UI;
 
 public class ShopScript : MonoBehaviour
 {
-    public List<GameObject> Units;
-    public List<GameObject> Turrets;
-    public List<GameObject> Civilizations;
-
     public GameObject UnitShop;
-    public GameObject TurretShop;
     public GameObject CivilizationShop;
     public GameObject OuterMenu;
 
     private void Start()
     {
-        SetupNewShop(UnitShop, TurretShop, CivilizationShop);
+        SetupNewShop(UnitShop, CivilizationShop);
     }
 
-    public void SetupNewShop(GameObject unitShop, GameObject turretShop, GameObject civilizationShop)
+    public void SetupNewShop(GameObject unitShop, GameObject civilizationShop)
     {
         //Hide previous menues
         Back();
@@ -28,11 +23,6 @@ public class ShopScript : MonoBehaviour
         uShop.GetComponent<RectTransform>().localPosition = GameObject.Find("UnitShop").GetComponent<RectTransform>().localPosition;
         uShop.GetComponent<RectTransform>().localScale = GameObject.Find("UnitShop").GetComponent<RectTransform>().localScale;
         UnitShop = uShop;
-        var tShop = Instantiate(turretShop);
-        tShop.transform.SetParent(GameObject.Find("TurretShop").transform);
-        tShop.GetComponent<RectTransform>().localPosition = GameObject.Find("TurretShop").GetComponent<RectTransform>().localPosition;
-        tShop.GetComponent<RectTransform>().localScale = GameObject.Find("TurretShop").GetComponent<RectTransform>().localScale;
-        TurretShop = tShop;
         var cShop = Instantiate(civilizationShop);
         cShop.transform.SetParent(GameObject.Find("CivilizationShop").transform);
         cShop.GetComponent<RectTransform>().localPosition = GameObject.Find("CivilizationShop").GetComponent<RectTransform>().localPosition;
@@ -48,12 +38,6 @@ public class ShopScript : MonoBehaviour
         OuterMenu.SetActive(false);
     }
 
-    public void OpenTurretShop()
-    {
-        TurretShop.SetActive(true);
-        OuterMenu.SetActive(false);
-    }
-
     public void OpenCivilizationShop()
     {
         CivilizationShop.SetActive(true);
@@ -64,7 +48,6 @@ public class ShopScript : MonoBehaviour
     {
         OuterMenu.SetActive(true);
         UnitShop.SetActive(false);
-        TurretShop.SetActive(false);
         CivilizationShop.SetActive(false);
     }
 
@@ -97,23 +80,10 @@ public class ShopScript : MonoBehaviour
         return false; 
     }
 
-    public bool PurchaseTurret(GameObject purchaser, int turretId)
-    {
-        if (purchaser.GetComponent<SummonerMain>().gold >= ControllerScript.Singleton.GetTurret(turretId).GetComponent<PurchaseableMain>().goldCost)
-        {
-            purchaser.GetComponent<SummonerMain>().gold -= ControllerScript.Singleton.GetTurret(turretId).GetComponent<PurchaseableMain>().goldCost;
-            return true;
-        }
-        return false;
-    }
-
     public bool PurchaseCivilization(GameObject purchaser, int civId)
     {
         if (purchaser.GetComponent<SummonerMain>().experience >= ControllerScript.Singleton.GetCivilization(civId).GetComponent<CivilizationMain>().experienceRequired)
-        {
-            purchaser.GetComponent<SummonerMain>().experience -= ControllerScript.Singleton.GetCivilization(civId).GetComponent<CivilizationMain>().experienceRequired;
             return true;
-        }
         return false;
     }
 

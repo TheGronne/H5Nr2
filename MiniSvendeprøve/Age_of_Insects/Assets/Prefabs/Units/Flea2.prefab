@@ -361,7 +361,7 @@ MonoBehaviour:
   closestEnemyUnit: {fileID: 0}
   closestAllyUnit: {fileID: 0}
   summoner: {fileID: 0}
-  summonerId: 0
+  summonerId: 2
   summonTime: 1
 --- !u!212 &185860389854697727
 SpriteRenderer:

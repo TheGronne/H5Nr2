@@ -68,19 +68,19 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1466}
     - Class: 114
-      Script: {instanceID: 1526}
+      Script: {instanceID: 1468}
     - Class: 114
-      Script: {instanceID: 1658}
+      Script: {instanceID: 1528}
     - Class: 114
-      Script: {instanceID: 1704}
+      Script: {instanceID: 1660}
     - Class: 114
-      Script: {instanceID: 2142}
+      Script: {instanceID: 1706}
     - Class: 114
-      Script: {instanceID: 2182}
+      Script: {instanceID: 2144}
     - Class: 114
-      Script: {instanceID: 2426}
+      Script: {instanceID: 2184}
     - Class: 114
-      Script: {instanceID: 2584}
+      Script: {instanceID: 2428}
     - Class: 114
       Script: {instanceID: 2610}
     - Class: 114
@@ -106,9 +106,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 4784}
     - Class: 114
-      Script: {instanceID: 4922}
+      Script: {instanceID: 4920}
     - Class: 114
-      Script: {instanceID: 24682}
+      Script: {instanceID: 4924}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -136,6 +136,12 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: Button
+  - hash:
+      serializedVersion: 2
+      Hash: a1aa98c78061c6f03a8c124cda576e67
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: CanvasScaler
   - hash:
       serializedVersion: 2
       Hash: 5ab533713adae59372fb3e10a585c186
@@ -240,7 +246,7 @@ ScriptsOnlyBuild:
     className: GroupTrack
   - hash:
       serializedVersion: 2
-      Hash: 982955fcb8af39da3256ce890b3ad75d
+      Hash: 85e2e615a4a4191874d37017ab209680
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: ShopScript
@@ -288,13 +294,7 @@ ScriptsOnlyBuild:
     className: UnitMain
   - hash:
       serializedVersion: 2
-      Hash: a1aa98c78061c6f03a8c124cda576e67
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: CanvasScaler
-  - hash:
-      serializedVersion: 2
-      Hash: 3af098857fb9dd9a3de64eae4c0e71a1
+      Hash: 156ab292eae7fdc95cd761f997108a00
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: DataHandlerScript
@@ -654,7 +654,7 @@ ScriptsOnlyBuild:
     className: SpriteSkinEntity
   - hash:
       serializedVersion: 2
-      Hash: 12125bc0b29e3f4f8fd243e54946eb98
+      Hash: fb236c849575131f824cc0d3c69e4f50
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerMain
@@ -684,7 +684,13 @@ ScriptsOnlyBuild:
     className: TMP_SubMeshUI
   - hash:
       serializedVersion: 2
-      Hash: 2fae40c3da98f33fa5ef99b682a4b0bd
+      Hash: 1028c39545bcfa841aaab54121e69a47
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: UnitHealthbar
+  - hash:
+      serializedVersion: 2
+      Hash: 3eff356ed2f730291902bd81625dada8
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: UIManager
@@ -736,12 +742,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.2D.IK.Runtime.dll
     namespaceName: UnityEngine.U2D.IK
     className: FabrikSolver2D
-  - hash:
-      serializedVersion: 2
-      Hash: 1028c39545bcfa841aaab54121e69a47
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: UnitHealthbar
   platform: 5
   scenePathNames:
   - Assets/Scenes/InGame.unity

@@ -103,7 +103,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2131918058409611187}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -22.5, y: -3.25, z: 0}
+  m_LocalPosition: {x: 22.5, y: -3.25, z: 0}
   m_LocalScale: {x: 3, y: 2, z: 2}
   m_Children:
   - {fileID: 7714573335749271483}
@@ -124,8 +124,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 200
   goldCost: 1000
-  baseDamage: 10
-  homeDamage: 5
+  baseDamage: 25
+  homeDamage: 10
   attackSpeed: 5
   attackRange: 1
   walkingSpeed: 4
@@ -133,7 +133,7 @@ MonoBehaviour:
   closestEnemyUnit: {fileID: 0}
   closestAllyUnit: {fileID: 0}
   summoner: {fileID: 0}
-  summonerId: 0
+  summonerId: 2
   summonTime: 1
 --- !u!212 &-1654644939265292014
 SpriteRenderer:

@@ -6,19 +6,14 @@ public class PlayerMain : SummonerMain
 {
     public bool isAlive = true;
 
-    public int passiveGoldGenerationAmount = 1;
-    public float passiveGoldGenerationRegularity = 1;
-    public float passiveGoldGenerationTimer;
-    public bool runPassiveGoldGenerationTimer = true;
+    private int passiveGoldGenerationAmount = 5;
+    private float passiveGoldGenerationRegularity = 1;
+    private float passiveGoldGenerationTimer;
+    private bool runPassiveGoldGenerationTimer = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        health = 1000;
-        gold = 125;
-        experience = 0;
-        defense = 0;
-        civilizationId = 0;
         Setup();
     }
 
@@ -40,6 +35,20 @@ public class PlayerMain : SummonerMain
 
     public void Setup()
     {
+        health = 1000;
+        gold = 125000;
+        experience = 10000;
+        defense = 0;
+        civilizationId = 0;
         passiveGoldGenerationTimer = passiveGoldGenerationRegularity;
+        gameObject.GetComponent<UnitHealthbar>().SetMaxHealth(health);
+        gameObject.GetComponent<UnitHealthbar>().SetHealth(health);
     }
+
+    public override void TakeDamage(int damage)
+    {
+        base.TakeDamage(damage);
+        gameObject.GetComponent<UnitHealthbar>().SetHealth(health);
+    }
+
 }

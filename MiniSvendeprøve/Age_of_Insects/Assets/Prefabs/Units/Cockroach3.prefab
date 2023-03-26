@@ -277,9 +277,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 1500
   goldCost: 1500
-  baseDamage: 10
+  baseDamage: 100
   homeDamage: 100
-  attackSpeed: 0.25
+  attackSpeed: 0.2
   attackRange: 3
   walkingSpeed: 0.5
   sizeRadius: 2
