@@ -86,8 +86,8 @@ public class UIManager : MonoBehaviour
     {
         List<Player> players = list.Select(kvp => kvp.Value).ToList();
 
-        usernameText1.text = "New Text";
-        usernameText2.text = "New Text";
+        usernameText1.text = "Waiting...";
+        usernameText2.text = "Waiting...";
         readyButton1.GetComponent<Image>().color = Color.red;
         readyButton1.GetComponentInChildren<Text>().text = "Not ready";
         readyButton2.GetComponent<Image>().color = Color.red;
